@@ -11,8 +11,10 @@ class CartsController < ApplicationController
   end
 
   def voucher_amount
-    @voucher = Voucher.where(code: params[:voucher_code], aasm_state: "valid_no_used").first
-    render json: {code: 200, message: @voucher.present? ? "优惠金额：#{@voucher.amount}" : "没有对应的优惠码" }
+    @voucher = Voucher.where(code: params[:voucher_code], aasm_state: "valid_no_used").first rescue nil
+    now_time = Time.now
+    is_voucher = @voucher.present? && now_time >= @voucher.start_at &&  now_time <= @voucher.created_at
+    render json: {code: 200, message: is_voucher ? "优惠金额：#{@voucher.amount}" : "没有对应的优惠码或者优惠码不在有效范围内" }
   end
 
 end
