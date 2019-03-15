@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190313055144) do
+ActiveRecord::Schema.define(version: 20190315040734) do
 
   create_table "cart_items", force: :cascade do |t|
     t.integer  "cart_id"
@@ -38,7 +38,9 @@ ActiveRecord::Schema.define(version: 20190313055144) do
     t.boolean  "is_paid",          default: false
     t.string   "payment_method"
     t.string   "aasm_state",       default: "order_placed"
-    t.index [nil], name: "index_orders_on_assm_state"
+    t.string   "voucher_code"
+    t.integer  "voucher_amount"
+    t.index ["aasm_state"], name: "index_orders_on_aasm_state"
   end
 
   create_table "product_lists", force: :cascade do |t|
@@ -72,6 +74,18 @@ ActiveRecord::Schema.define(version: 20190313055144) do
     t.boolean  "is_admin",               default: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "vouchers", force: :cascade do |t|
+    t.integer  "order_id"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.integer  "amount"
+    t.string   "code"
+    t.string   "aasm_state", default: "valid_no_used"
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["aasm_state"], name: "index_vouchers_on_aasm_state"
   end
 
 end

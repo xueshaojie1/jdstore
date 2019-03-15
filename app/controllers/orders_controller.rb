@@ -8,7 +8,6 @@ class OrdersController < ApplicationController
     @order.total = current_cart.total_price
 
     if @order.save
-
       current_cart.cart_items.each do |cart_item|
         product_list = ProductList.new
         product_list.order = @order
@@ -60,7 +59,7 @@ class OrdersController < ApplicationController
   private
 
   def order_params
-    params.require(:order).permit(:billing_name, :billing_address, :shipping_name, :shipping_address)
+    params.require(:order).permit(:billing_name, :billing_address, :shipping_name, :shipping_address, :voucher_code)
   end
 
 end

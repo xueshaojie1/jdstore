@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
 
   namespace :admin do
-    resources :products
+    resources :products, :vouchers
     resources :orders do
       member do
         post :cancel, :ship, :shipped, :return
@@ -19,8 +19,9 @@ Rails.application.routes.draw do
 
   resources :carts do
     collection do
+      get    :voucher_amount
       delete :clean
-      post :checkout
+      post   :checkout
     end
   end
 

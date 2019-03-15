@@ -34,7 +34,7 @@
 
     <div class="total clearfix">
       <span class="pull-right">
-       总计 <%= @order.total %> CNY
+        <%= render "orders/order_amount", order: @order %>
        </span>
      </div>
 

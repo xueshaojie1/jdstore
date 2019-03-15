@@ -1,0 +1,5 @@
+实付 <%= order.total %> CNY
+<% if order.voucher_amount.present? %>
+  优惠 <%= order.voucher_amount %> CNY
+<% end %>
+总计 <%= order.total_amount %> CNY

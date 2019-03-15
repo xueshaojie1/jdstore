@@ -33,6 +33,8 @@ class Admin::OrdersController < ApplicationController
     @order.product_lists.each do |order_item|
       order_item.product.update(quantity: order_item.product.quantity + order_item.quantity)
     end
+    @voucher = Voucher.find_by_code(@order.voucher_code)
+    @voucher.cancel!  if @voucher.present?
     # OrderMailer.notify_cancel(@order).deliver!
     redirect_to :back
   end

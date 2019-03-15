@@ -3,17 +3,16 @@
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th>#</th>
-      <th>生成时间</th>
-
+      <th>创建时间</th>
+      <th>操作</th>
     </tr>
   </thead>
   <tbody>
 
     <% @orders.each do |order| %>
     <tr>
-      <td> <%= link_to(order.id, order_path(order.token)) %> </td>
-      <td> <%= order.created_at.to_s(:long) %> </td>
+      <td> <%= order.created_at.to_s(:db) %> </td>
+      <td> <%= link_to("详情", order_path(order.token)) %> </td>
     </tr>
     <% end %>
 

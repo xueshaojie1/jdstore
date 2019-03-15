@@ -1,0 +1,43 @@
+<h2> 优惠券列表 </h2>
+
+<div class="pull-right" style="padding-bottom: 20px;">
+  <%= link_to("新增优惠券", new_admin_voucher_path, class: "btn btn-primary btn-sm") %>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>开始时间</th>
+      <th>结束时间</th>
+      <th>优惠金额</th>
+      <th>状态</th>
+      <th>兑换码</th>
+      <th width="150"> 操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @vouchers.each do |voucher| %>
+      <tr>
+        <td>
+          <%= voucher.start_at.to_s(:db) %>
+        </td>
+        <td>
+          <%= voucher.end_at.to_s(:db) %>
+        </td>
+        <td>
+          <%= voucher.amount %>
+        </td>
+        <td>
+          <%= voucher.aasm_state_name(voucher.aasm_state) %>
+        </td>
+        <td>
+          <%= voucher.code %>
+        </td>
+        <td>
+          <%= link_to("设为待使用", admin_voucher_path(voucher, "voucher[aasm_state]": "valid_no_used"), method: :patch, class: "btn btn-info") if voucher.aasm_state == "invalid" %>
+          <%= link_to("设为无效", admin_voucher_path(voucher, "voucher[aasm_state]": "invalid"), method: :patch, class: "btn btn-info") if voucher.aasm_state == "valid_no_used" %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
